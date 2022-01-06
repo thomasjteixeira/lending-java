@@ -28,6 +28,16 @@ public class Lending {
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
+    public Lending() {
+    }
+
+    public Lending(BigDecimal lendingValue, LocalDate firstInstallmentDate, int numberOfInstallments, User user) {
+        this.lendingValue = lendingValue;
+        this.firstInstallmentDate = firstInstallmentDate;
+        this.numberOfInstallments = numberOfInstallments;
+        this.user = user;
+    }
+
     public Long getId() {
         return id;
     }

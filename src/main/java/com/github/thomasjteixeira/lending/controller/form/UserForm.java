@@ -1,19 +1,11 @@
-package com.github.thomasjteixeira.lending.entity;
+package com.github.thomasjteixeira.lending.controller.form;
 
-//nome, e-mail, CPF, RG, endereço completo, renda e senha.
+import com.github.thomasjteixeira.lending.entity.User;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.math.BigDecimal;
 
-@Entity
-public class User {
+public class UserForm {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String name;
     private String username;
     private String email;
@@ -23,27 +15,7 @@ public class User {
     private BigDecimal rend;
     private String password;
 
-    public User() {
-    }
 
-    public User(String name, String username, String email, int cpf, int rg, String address, BigDecimal rend, String password) {
-        this.name = name;
-        this.username = username;
-        this.email = email;
-        this.cpf = cpf;
-        this.rg = rg;
-        this.address = address;
-        this.rend = rend;
-        this.password = password;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -107,5 +79,10 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public User converter() {
+        return new User(name, username, email, cpf, rg,
+                address, rend, password);
     }
 }

@@ -1,19 +1,52 @@
 package com.github.thomasjteixeira.lending.controller;
 
+import com.github.thomasjteixeira.lending.controller.dto.LendingDto;
+import com.github.thomasjteixeira.lending.controller.form.LendingForm;
 import com.github.thomasjteixeira.lending.entity.Lending;
 import com.github.thomasjteixeira.lending.repository.LendingRepository;
+import com.github.thomasjteixeira.lending.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
+@RequestMapping("/lendings")
 public class LendingController {
 
     @Autowired
     private LendingRepository lendingRepository;
 
-    @RequestMapping("/lendings")
+    @Autowired
+    private UserRepository userRepository;
+    //colocar o DTO
+    //Ajustar para List para mostrar apenas o do usuário
+    @GetMapping
     public Iterable<Lending> getLendings(){
         return lendingRepository.findAll();
     }
+
+    @PostMapping
+    public ResponseEntity<LendingDto> create(@RequestBody LendingForm lendingForm, UriComponentsBuilder uriComponentsBuilder){
+        Lending lending = lendingForm.convert(userRepository);
+        lendingRepository.save(lending);
+
+        URI uri = uriComponentsBuilder.path("/lendings/{id}").buildAndExpand(lending.getId()).toUri();
+        return ResponseEntity.created(uri).body(new LendingDto(lending));
+    }
+
+    /*@PostMapping
+    public void create(@RequestBody LendingForm lendingForm){
+        Lending lending = lendingForm.convert(userRepository);
+        lendingRepository.save(lending);
+
+        *//*URI uri = uriComponentsBuilder.path("/lendings/{id}").buildAndExpand(lending.getId()).toUri();
+        return ResponseEntity.created(uri).body(new LendingDto(lending));*//*
+    }*/
 }

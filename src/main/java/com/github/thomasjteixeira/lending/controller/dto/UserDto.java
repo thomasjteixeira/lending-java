@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//Apagar os setts
 public class UserDto {
 
     private Long id;
@@ -16,17 +17,19 @@ public class UserDto {
     private int rg;
     private String address;
     private BigDecimal rend;
-    private String password;
 
-    public UserDto(Long id, String name, String email, int cpf, int rg, String address, BigDecimal rend, String password) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.cpf = cpf;
-        this.rg = rg;
-        this.address = address;
-        this.rend = rend;
-        this.password = password;
+    public UserDto(User user) {
+        this.id = user.getId();
+        this.name = user.getName();
+        this.email = user.getEmail();
+        this.cpf = user.getCpf();
+        this.rg = user.getRg();
+        this.address = user.getAddress();
+        this.rend = user.getRend();
+    }
+
+    public static List<UserDto> converter(List<User> users) {
+        return users.stream().map(UserDto::new).collect(Collectors.toList());
     }
 
 //    public static List<UserDto> converter(List<User> users) {
@@ -89,11 +92,4 @@ public class UserDto {
         this.rend = rend;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
