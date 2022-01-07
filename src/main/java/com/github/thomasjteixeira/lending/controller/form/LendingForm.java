@@ -1,17 +1,23 @@
 package com.github.thomasjteixeira.lending.controller.form;
 
+import com.github.thomasjteixeira.lending.config.validation.ValidationFirstInstallmentDate;
 import com.github.thomasjteixeira.lending.entity.Lending;
 import com.github.thomasjteixeira.lending.entity.User;
 import com.github.thomasjteixeira.lending.repository.UserRepository;
 
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.Max;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class LendingForm {
     private BigDecimal lendingValue;
+//   @FutureOrPresent
+    @ValidationFirstInstallmentDate(deadlineForFirstInstallment=90)
     private LocalDate firstInstallmentDate;
+    @Max(60)
     private int numberOfInstallments;
     //Ajustar e não passar o usuário na implementação de segurança
     // deve pegar o usuário da sessão logada

@@ -1,12 +1,10 @@
 package com.github.thomasjteixeira.lending.config.validation;
 
-import com.github.thomasjteixeira.lending.controller.form.LendingForm;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.time.LocalDate;
 
-public class ValidationDate implements ConstraintValidator<ValidationFirstInstallmentDate, LocalDate> {
+public class ValidationFirstInstallmentDateImpl implements ConstraintValidator<ValidationFirstInstallmentDate, LocalDate> {
 
     private Long deadlineForFirstInstallment;
 

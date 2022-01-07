@@ -2,17 +2,24 @@ package com.github.thomasjteixeira.lending.controller.form;
 
 import com.github.thomasjteixeira.lending.entity.User;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public class UserForm {
 
+    @NotNull @NotEmpty
     private String name;
     private String username;
+    @NotNull @NotEmpty
     private String email;
+
     private int cpf;
+
     private int rg;
     private String address;
     private BigDecimal rend;
+    @NotNull @NotEmpty
     private String password;
 
 

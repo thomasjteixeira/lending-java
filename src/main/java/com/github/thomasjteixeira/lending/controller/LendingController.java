@@ -7,7 +7,9 @@ import com.github.thomasjteixeira.lending.repository.LendingRepository;
 import com.github.thomasjteixeira.lending.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +27,7 @@ public class LendingController {
 
     @Autowired
     private UserRepository userRepository;
-    //colocar o DTO
+    //colocar o DTO ( retornar no mínimo o código do empréstimo, o valor e a quantidade de parcelas.)
     //Ajustar para List para mostrar apenas o do usuário
     @GetMapping
     public Iterable<Lending> getLendings(){
@@ -33,7 +35,7 @@ public class LendingController {
     }
 
     @PostMapping
-    public ResponseEntity<LendingDto> create(@RequestBody LendingForm lendingForm, UriComponentsBuilder uriComponentsBuilder){
+    public ResponseEntity<LendingDto> create(@RequestBody @Validated LendingForm lendingForm, UriComponentsBuilder uriComponentsBuilder){
         Lending lending = lendingForm.convert(userRepository);
         lendingRepository.save(lending);
 
@@ -41,12 +43,10 @@ public class LendingController {
         return ResponseEntity.created(uri).body(new LendingDto(lending));
     }
 
-    /*@PostMapping
-    public void create(@RequestBody LendingForm lendingForm){
-        Lending lending = lendingForm.convert(userRepository);
-        lendingRepository.save(lending);
 
-        *//*URI uri = uriComponentsBuilder.path("/lendings/{id}").buildAndExpand(lending.getId()).toUri();
-        return ResponseEntity.created(uri).body(new LendingDto(lending));*//*
-    }*/
+    @GetMapping("{id}")
+    public DetailLendingDto detail(@PathVariable Long id){
+        Lending lending = lendingRepository.getById(id);
+        return new DetailLendingDto(lending);
+    }
 }
