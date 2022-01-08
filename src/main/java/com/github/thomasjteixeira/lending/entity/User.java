@@ -2,11 +2,14 @@ package com.github.thomasjteixeira.lending.entity;
 
 //nome, e-mail, CPF, RG, endereço completo, renda e senha.
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 public class User {
@@ -22,6 +25,9 @@ public class User {
     private String address;
     private BigDecimal rend;
     private String password;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy="user")
+    private List<Lending> lendings;
 
     public User() {
     }
@@ -107,5 +113,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Lending> getLendings() {
+        return lendings;
+    }
+
+    public void setLendings(List<Lending> lendings) {
+        this.lendings = lendings;
     }
 }

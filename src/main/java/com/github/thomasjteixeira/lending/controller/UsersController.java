@@ -7,6 +7,7 @@ import com.github.thomasjteixeira.lending.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +29,7 @@ public class UsersController {
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping
+    @GetMapping
     public List<UserDto> getUsers(){
         List<User> users = userRepository.findAll();
         return UserDto.converter(users);
@@ -60,5 +61,11 @@ public class UsersController {
     public ResponseEntity<UserDto> update(@PathVariable Long id,@RequestBody UserForm userForm){
         User user = userForm.update(id, userRepository);
         return ResponseEntity.ok(new UserDto(user));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity delete(@PathVariable Long id){
+        userRepository.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }
