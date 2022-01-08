@@ -1,4 +1,4 @@
-package com.github.thomasjteixeira.lending.controller;
+package com.github.thomasjteixeira.lending.controller.dto;
 
 import com.github.thomasjteixeira.lending.entity.Lending;
 

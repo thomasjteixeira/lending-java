@@ -1,6 +1,7 @@
 package com.github.thomasjteixeira.lending.controller.form;
 
 import com.github.thomasjteixeira.lending.entity.User;
+import com.github.thomasjteixeira.lending.repository.UserRepository;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -22,6 +23,17 @@ public class UserForm {
     @NotNull @NotEmpty
     private String password;
 
+    public User update(Long id, UserRepository userRepository) {
+        User user = userRepository.getById(id);
+        user.setName(this.name);
+        user.setUsername(this.username);
+        user.setEmail(this.email);
+        user.setAddress(this.address);
+        user.setRend(this.rend);
+        user.setPassword(this.password);
+
+        return user;
+    }
 
 
     public String getName() {

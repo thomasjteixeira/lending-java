@@ -3,6 +3,7 @@ package com.github.thomasjteixeira.lending.controller.form;
 import com.github.thomasjteixeira.lending.config.validation.ValidationFirstInstallmentDate;
 import com.github.thomasjteixeira.lending.entity.Lending;
 import com.github.thomasjteixeira.lending.entity.User;
+import com.github.thomasjteixeira.lending.repository.LendingRepository;
 import com.github.thomasjteixeira.lending.repository.UserRepository;
 
 import javax.persistence.FetchType;
@@ -59,4 +60,15 @@ public class LendingForm {
         User user = userRepository.findByUsername(username);
         return new Lending(lendingValue, firstInstallmentDate, numberOfInstallments, user);
     }
+
+    public Lending update(Long id, LendingRepository lendingRepository) {
+        Lending lending = lendingRepository.getById(id);
+        lending.setLendingValue(this.lendingValue);
+        lending.setFirstInstallmentDate(this.firstInstallmentDate);
+        lending.setNumberOfInstallments(this.numberOfInstallments);
+
+        return lending;
+    }
+
+
 }
