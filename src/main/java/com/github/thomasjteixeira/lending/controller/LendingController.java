@@ -12,6 +12,7 @@ import com.github.thomasjteixeira.lending.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
 import java.net.URI;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/lendings")
@@ -50,17 +52,34 @@ public class LendingController {
     }
 
     @GetMapping("{id}")
-    public DetailLendingDto detail(@PathVariable Long id){
-        Lending lending = lendingRepository.getById(id);
-        return new DetailLendingDto(lending);
+    public ResponseEntity<DetailLendingDto> detail(@PathVariable Long id){
+        Optional<Lending> lending = lendingRepository.findById(id);
+        if(lending.isPresent()){
+            return ResponseEntity.ok(new DetailLendingDto(lending.get()));
+        }
+        return ResponseEntity.notFound().build();
+
     }
 
     @PutMapping(value = "/{id}")
     @Transactional
     public ResponseEntity<LendingDto> update(@PathVariable Long id, @RequestBody LendingForm lendingForm){
-        Lending lending = lendingForm.update(id, lendingRepository);
-        return ResponseEntity.ok(new LendingDto(lending));
+        Optional<Lending> optional = lendingRepository.findById(id);
+        if(optional.isPresent()) {
+            Lending lending = lendingForm.update(id, lendingRepository);
+            return ResponseEntity.ok(new LendingDto(lending));
+        }
+        return ResponseEntity.notFound().build();
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity delete(@PathVariable Long id){
+        Optional<Lending> optional = lendingRepository.findById(id);
+        if(optional.isPresent()) {
+            userRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
 
 }

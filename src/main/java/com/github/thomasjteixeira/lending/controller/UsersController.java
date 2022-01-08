@@ -59,13 +59,24 @@ public class UsersController {
     @PutMapping(value = "/{id}")
     @Transactional
     public ResponseEntity<UserDto> update(@PathVariable Long id,@RequestBody UserForm userForm){
-        User user = userForm.update(id, userRepository);
-        return ResponseEntity.ok(new UserDto(user));
+        Optional<User> optional = userRepository.findById(id);
+        if(optional.isPresent()){
+            User user = userForm.update(id, userRepository);
+            return ResponseEntity.ok(new UserDto(user));
+        }
+
+        return ResponseEntity.notFound().build();
+
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Long id){
-        userRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+        Optional<User> optional = userRepository.findById(id);
+        if(optional.isPresent()) {
+            userRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.notFound().build();
     }
 }
