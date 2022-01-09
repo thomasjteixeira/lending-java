@@ -2,6 +2,7 @@ package com.github.thomasjteixeira.lending.controller.form;
 
 import com.github.thomasjteixeira.lending.entity.User;
 import com.github.thomasjteixeira.lending.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -30,7 +31,7 @@ public class UserForm {
         user.setEmail(this.email);
         user.setAddress(this.address);
         user.setRend(this.rend);
-        user.setPassword(this.password);
+        user.setPassword(new BCryptPasswordEncoder().encode(this.password));
 
         return user;
     }
@@ -102,6 +103,6 @@ public class UserForm {
 
     public User converter() {
         return new User(name, username, email, cpf, rg,
-                address, rend, password);
+                address, rend, new BCryptPasswordEncoder().encode(password));
     }
 }
