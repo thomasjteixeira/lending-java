@@ -35,12 +35,12 @@ public class UsersController {
         return UserDto.converter(users);
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<UserDto> create(@RequestBody @Validated UserForm form, UriComponentsBuilder uriComponentsBuilder){
         User user = form.converter();
         userRepository.save(user);
 
-        URI uri = uriComponentsBuilder.path("/Users/{id}").buildAndExpand(user.getId()).toUri();
+        URI uri = uriComponentsBuilder.path("/users//register/{id}").buildAndExpand(user.getId()).toUri();
         return ResponseEntity.created(uri).body(new UserDto(user));
     }
 
