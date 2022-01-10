@@ -24,6 +24,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -38,9 +39,16 @@ public class LendingController {
     //colocar o DTO ( retornar no mínimo o código do empréstimo, o valor e a quantidade de parcelas.)
     //Ajustar para List para mostrar apenas o do usuário
     @GetMapping
-    public Iterable<Lending> getLendings(){
-        return lendingRepository.findAll();
+    public List<LendingDto> getLendings(){
+        List<Lending> lendings = lendingRepository.findAll();
+        return LendingDto.converter(lendings);
+
     }
+
+    /*public List<UserDto> getUsers(){
+        List<User> users = userRepository.findAll();
+        return UserDto.converter(users);
+    }*/
 
     @PostMapping
     public ResponseEntity<LendingDto> create(@RequestBody @Validated LendingForm lendingForm, UriComponentsBuilder uriComponentsBuilder){

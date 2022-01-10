@@ -14,6 +14,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
+    private static final String[] SWAGGER_WHITELIST = {
+            "/v2/api-docs/**",
+            "/swagger-resources/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/webjars/**"
+    };
+
     @Autowired
     private AuthenticationService authenticationService;
 
@@ -30,6 +38,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/users/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
+                .antMatchers(SWAGGER_WHITELIST).permitAll()
                 .anyRequest().authenticated().and().formLogin();
 
         http.csrf().disable();

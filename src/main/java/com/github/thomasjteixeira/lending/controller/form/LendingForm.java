@@ -20,8 +20,7 @@ public class LendingForm {
     private LocalDate firstInstallmentDate;
     @Max(60)
     private int numberOfInstallments;
-    //Ajustar e não passar o usuário na implementação de segurança
-    // deve pegar o usuário da sessão logada
+
     private String username;
 
     public BigDecimal getLendingValue() {
