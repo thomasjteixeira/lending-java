@@ -18,5 +18,5 @@ Funcionalidades:
 Desenvolvimento de uma API REST em Java utilizando o Spring Boot com às seguintes dependências:
 - Spring Data JPA e Hibernate: Gerenciamento e acesso dos dados do sistema
 - Java Bean Validation with Hibernate Validator: Validação dos dados inseridos pelo usuário
-- Spring Security: Autenticação e autorização do usuário
+- Spring Security: Autenticação do usuário
 - Swagger e Springfox: Documentação da API
