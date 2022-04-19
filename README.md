@@ -1,6 +1,4 @@
-# tqi_evolution_backend_2021
-***
-Desafio do processo seletivo TQI Evolution Backend 2021 - API Rest para Solicitação de empréstimos.
+API Rest para Solicitação de empréstimos.
 
 
 ## Descrição:
